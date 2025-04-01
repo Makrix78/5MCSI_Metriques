@@ -1,85 +1,120 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Page de contact</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Maxime</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #9face6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      width: 100%;
+      max-width: 600px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      animation: fadeIn 1s ease-out;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #34495e;
+    }
+
+    form label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    form input,
+    form textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+
+    form input:focus,
+    form textarea:focus {
+      border-color: #3498db;
+      outline: none;
+    }
+
+    form textarea {
+      height: 120px;
+      resize: none;
+    }
+
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 14px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
       }
-
-      .container {
-        max-width: 600px;
-        margin: 60px auto;
-        background: #fff;
-        padding: 40px;
-        border-radius: 8px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
+    }
 
-      h2 {
-        text-align: center;
-        color: #333;
+    @media (max-width: 600px) {
+      .card {
+        padding: 30px 20px;
+        margin: 20px;
       }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>💬 Contactez Maxime</h2>
+    <form>
+      <label for="prenom">Prénom</label>
+      <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required>
 
-      form {
-        display: flex;
-        flex-direction: column;
-      }
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
 
-      label {
-        margin-top: 15px;
-        font-weight: bold;
-      }
+      <label for="message">Message</label>
+      <textarea id="message" name="message" placeholder="Votre message ici..." required></textarea>
 
-      input[type="text"],
-      textarea {
-        padding: 10px;
-        margin-top: 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 16px;
-      }
-
-      textarea {
-        resize: vertical;
-        height: 100px;
-      }
-
-      button {
-        margin-top: 25px;
-        padding: 12px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        font-size: 16px;
-        border-radius: 4px;
-        cursor: pointer;
-      }
-
-      button:hover {
-        background-color: #0056b3;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h2>Contactez-moi</h2>
-      <form>
-        <label for="prenom">Prénom</label>
-        <input type="text" id="prenom" name="prenom" placeholder="Votre prénom">
-
-        <label for="nom">Nom</label>
-        <input type="text" id="nom" name="nom" placeholder="Votre nom">
-
-        <label for="message">Message</label>
-        <textarea id="message" name="message" placeholder="Votre message..."></textarea>
-
-        <button type="submit">Envoyer</button>
-      </form>
-    </div>
-  </body>
+      <button type="submit">Envoyer le message</button>
+    </form>
+  </div>
+</body>
 </html>
