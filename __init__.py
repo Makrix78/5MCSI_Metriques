@@ -40,11 +40,15 @@ def graph_commits():
     return render_template('commits.html')
 
 # Route qui fournit les données JSON des commits
+from urllib.request import Request  # à ajouter en haut si pas encore là
+
 @app.route('/commits-data/')
 def commits_data():
     try:
-        url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits'
-        response = urlopen(url)
+        token = "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"
+        headers = {'Authorization': f'token {token}'}
+        req = Request('https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits', headers=headers)
+        response = urlopen(req)
         raw_data = response.read()
         data = json.loads(raw_data.decode('utf-8'))
 
@@ -60,6 +64,7 @@ def commits_data():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 if __name__ == "__main__":
     app.run(debug=True)
