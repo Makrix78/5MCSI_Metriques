@@ -1,5 +1,4 @@
-from flask import Flask, render_template_string, render_template, jsonify
-from flask import render_template
+from flask import Flask, render_template, jsonify
 from flask import json
 from datetime import datetime
 from urllib.request import urlopen
@@ -35,12 +34,12 @@ def mongraphique():
 def histogramme():
     return render_template("histogramme.html")
 
-# ✅ Ceci affiche la page commits.html à /commits/
+# PAGE commits.html → visible à /commits/
 @app.route('/commits/')
 def graph_commits():
     return render_template('commits.html')
 
-# ✅ Ceci fournit les données JSON à /commits-data/
+# Données JSON utilisées par le graphique
 @app.route('/commits-data/')
 def commits_data():
     url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits'
@@ -53,10 +52,7 @@ def commits_data():
         date_str = commit['commit']['author']['date']
         date_object = datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%SZ')
         minute = date_object.minute
-        if minute not in minute_counts:
-            minute_counts[minute] = 1
-        else:
-            minute_counts[minute] += 1
+        minute_counts[minute] = minute_counts.get(minute, 0) + 1
 
     results = [{'minute': minute, 'commits': count} for minute, count in sorted(minute_counts.items())]
     return jsonify(results=results)
