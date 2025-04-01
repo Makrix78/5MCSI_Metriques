@@ -1,8 +1,9 @@
-from flask import Flask, render_template_string, render_template, jsonify
-from flask import render_template
+from flask import Flask, render_template, jsonify
 from flask import json
 from datetime import datetime
 from urllib.request import urlopen
+import requests
+from collections import Counter
 import sqlite3
 
 app = Flask(__name__)
@@ -11,6 +12,9 @@ app = Flask(__name__)
 def hello_world():
     return render_template('hello.html')
 
+@app.route("/contact/")
+def contact():
+    return render_template("contact.html")
 
 @app.route('/tawarano/')
 def meteo():
@@ -32,10 +36,25 @@ def mongraphique():
 def histogramme():
     return render_template("histogramme.html")
 
-@app.route("/contact/")
-def contact():
-    return render_template("contact.html")
+@app.route("/commits-data/")
+def commits_data():
+    url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits'
+    response = requests.get(url)
+    data = response.json()
 
+    minute_counts = Counter()
+    for commit in data:
+        date_str = commit['commit']['author']['date']
+        date_object = datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%SZ')
+        minute = date_object.minute
+        minute_counts[minute] += 1
+
+    results = [{'minute': minute, 'commits': count} for minute, count in sorted(minute_counts.items())]
+    return jsonify(results=results)
+
+@app.route("/commits/")
+def commits_graph():
+    return render_template("commits.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
