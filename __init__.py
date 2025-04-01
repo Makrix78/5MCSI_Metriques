@@ -43,15 +43,19 @@ def graph_commits():
 @app.route('/commits/')
 def commits():
     url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits'
-    response = requests.get(url)
-    data = response.json()
+    response = urlopen(url)
+    raw_data = response.read()
+    data = json.loads(raw_data.decode('utf-8'))
 
-    minute_counts = Counter()
+    minute_counts = {}
     for commit in data:
         date_str = commit['commit']['author']['date']
         date_object = datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%SZ')
         minute = date_object.minute
-        minute_counts[minute] += 1
+        if minute not in minute_counts:
+            minute_counts[minute] = 1
+        else:
+            minute_counts[minute] += 1
 
     results = [{'minute': minute, 'commits': count} for minute, count in sorted(minute_counts.items())]
     return jsonify(results=results)
