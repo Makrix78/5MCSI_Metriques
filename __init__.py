@@ -4,6 +4,9 @@ from flask import json
 from datetime import datetime
 from urllib.request import urlopen
 import sqlite3
+import requests
+from collections import Counter
+
 
 app = Flask(__name__)
 
@@ -38,6 +41,22 @@ def histogramme():
 @app.route('/graph-commits/')
 def graph_commits():
     return render_template('commits.html')
+
+@app.route('/commits/')
+def commits():
+    url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits'
+    response = requests.get(url)
+    data = response.json()
+
+    minute_counts = Counter()
+    for commit in data:
+        date_str = commit['commit']['author']['date']
+        date_object = datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%SZ')
+        minute = date_object.minute
+        minute_counts[minute] += 1
+
+    results = [{'minute': minute, 'commits': count} for minute, count in sorted(minute_counts.items())]
+    return jsonify(results=results)
 
 if __name__ == "__main__":
     app.run(debug=True)
