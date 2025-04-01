@@ -34,21 +34,17 @@ def mongraphique():
 def histogramme():
     return render_template("histogramme.html")
 
-# Route qui sert la page HTML du graphique
+# Route qui sert la page HTML du graphique des commits
 @app.route('/commits/')
 def graph_commits():
     return render_template('commits.html')
 
-# Route qui fournit les données JSON des commits
-from urllib.request import Request  # à ajouter en haut si pas encore là
-
+# Route qui fournit les données JSON (sans authentification)
 @app.route('/commits-data/')
 def commits_data():
     try:
-        token = "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"
-        headers = {'Authorization': f'token {token}'}
-        req = Request('https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits', headers=headers)
-        response = urlopen(req)
+        url = 'https://api.github.com/repos/Makrix78/5MCSI_Metriques/commits'
+        response = urlopen(url)
         raw_data = response.read()
         data = json.loads(raw_data.decode('utf-8'))
 
@@ -64,7 +60,6 @@ def commits_data():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
 
 if __name__ == "__main__":
     app.run(debug=True)
