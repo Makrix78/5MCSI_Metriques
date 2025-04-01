@@ -34,28 +34,32 @@ def mongraphique():
 def histogramme():
     return render_template("histogramme.html")
 
-# PAGE commits.html → visible à /commits/
+# Route qui sert la page HTML du graphique
 @app.route('/commits/')
 def graph_commits():
     return render_template('commits.html')
 
-# Données JSON utilisées par le graphique
+# Route qui fournit les données JSON des commits
 @app.route('/commits-data/')
 def commits_data():
-    url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits'
-    response = urlopen(url)
-    raw_data = response.read()
-    data = json.loads(raw_data.decode('utf-8'))
+    try:
+        url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits'
+        response = urlopen(url)
+        raw_data = response.read()
+        data = json.loads(raw_data.decode('utf-8'))
 
-    minute_counts = {}
-    for commit in data:
-        date_str = commit['commit']['author']['date']
-        date_object = datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%SZ')
-        minute = date_object.minute
-        minute_counts[minute] = minute_counts.get(minute, 0) + 1
+        minute_counts = {}
+        for commit in data:
+            date_str = commit['commit']['author']['date']
+            date_object = datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%SZ')
+            minute = date_object.minute
+            minute_counts[minute] = minute_counts.get(minute, 0) + 1
 
-    results = [{'minute': minute, 'commits': count} for minute, count in sorted(minute_counts.items())]
-    return jsonify(results=results)
+        results = [{'minute': minute, 'commits': count} for minute, count in sorted(minute_counts.items())]
+        return jsonify(results=results)
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
