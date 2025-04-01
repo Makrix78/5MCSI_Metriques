@@ -5,7 +5,6 @@ from datetime import datetime
 from urllib.request import urlopen
 import sqlite3
 
-
 app = Flask(__name__)
 
 @app.route('/')
@@ -36,12 +35,14 @@ def mongraphique():
 def histogramme():
     return render_template("histogramme.html")
 
-@app.route('/graph-commits/')
+# ✅ Ceci affiche la page commits.html à /commits/
+@app.route('/commits/')
 def graph_commits():
     return render_template('commits.html')
 
-@app.route('/commits/')
-def commits():
+# ✅ Ceci fournit les données JSON à /commits-data/
+@app.route('/commits-data/')
+def commits_data():
     url = 'https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits'
     response = urlopen(url)
     raw_data = response.read()
