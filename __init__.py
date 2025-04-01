@@ -45,7 +45,7 @@ from urllib.request import Request  # à ajouter en haut si pas encore là
 @app.route('/commits-data/')
 def commits_data():
     try:
-        token = "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"
+        token = "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"
         headers = {'Authorization': f'token {token}'}
         req = Request('https://api.github.com/repos/OpenRSI/5MCSI_Metriques/commits', headers=headers)
         response = urlopen(req)
