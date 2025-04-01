@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Commits par minute</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  </head>
+  <body>
+    <h2>Répartition des commits par minute</h2>
+    <div id="commits_chart" style="width: 900px; height: 500px;"></div>
+
+    <script>
+      google.charts.load('current', { packages: ['corechart'] });
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        fetch('/commits/')
+          .then(response => response.json())
+          .then(data => {
+            var dataTable = new google.visualization.DataTable();
+            dataTable.addColumn('string', 'Minute');
+            dataTable.addColumn('number', 'Commits');
+
+            data.results.forEach(entry => {
+              dataTable.addRow([entry.minute.toString(), entry.commits]);
+            });
+
+            var options = {
+              title: 'Nombre de commits par minute',
+              hAxis: { title: 'Minute (00 à 59)' },
+              vAxis: { title: 'Commits' },
+              legend: 'none'
+            };
+
+            var chart = new google.visualization.ColumnChart(document.getElementById('commits_chart'));
+            chart.draw(dataTable, options);
+          });
+      }
+    </script>
+  </body>
+</html>
