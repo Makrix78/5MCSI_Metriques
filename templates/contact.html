@@ -7,58 +7,65 @@
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #74ebd5, #9face6);
+      background: linear-gradient(135deg, #6dd5ed, #2193b0);
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      padding: 30px;
     }
 
-    .card {
+    .contact-card {
       background: white;
       padding: 40px;
-      width: 100%;
       max-width: 600px;
+      width: 100%;
       border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      animation: fadeIn 1s ease-out;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+      animation: slideUp 0.8s ease-out;
     }
 
-    h2 {
+    h1 {
       text-align: center;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    p {
+      text-align: center;
+      color: #7f8c8d;
       margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
       color: #34495e;
     }
 
-    form label {
-      display: block;
-      margin: 15px 0 5px;
-      font-weight: bold;
-      color: #2c3e50;
-    }
-
-    form input,
-    form textarea {
+    input, textarea {
       width: 100%;
       padding: 12px;
-      border: 1px solid #ccc;
+      margin-top: 5px;
       border-radius: 8px;
-      font-size: 16px;
-      transition: border-color 0.3s ease;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      transition: border 0.3s ease;
     }
 
-    form input:focus,
-    form textarea:focus {
-      border-color: #3498db;
+    input:focus, textarea:focus {
+      border: 1px solid #3498db;
       outline: none;
     }
 
-    form textarea {
+    textarea {
       height: 120px;
       resize: none;
     }
@@ -66,22 +73,30 @@
     button {
       margin-top: 25px;
       width: 100%;
-      padding: 14px;
+      padding: 15px;
+      font-size: 16px;
+      font-weight: bold;
       background-color: #3498db;
       color: white;
       border: none;
-      font-size: 16px;
-      font-weight: bold;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
     button:hover {
       background-color: #2980b9;
+      transform: scale(1.02);
     }
 
-    @keyframes fadeIn {
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 13px;
+      color: #bbb;
+    }
+
+    @keyframes slideUp {
       from {
         opacity: 0;
         transform: translateY(30px);
@@ -93,16 +108,16 @@
     }
 
     @media (max-width: 600px) {
-      .card {
+      .contact-card {
         padding: 30px 20px;
-        margin: 20px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h2>💬 Contactez Maxime</h2>
+  <div class="contact-card">
+    <h1>📬 Contactez-moi</h1>
+    <p>Laissez-moi un message, je vous répondrai rapidement.</p>
     <form>
       <label for="prenom">Prénom</label>
       <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required>
@@ -111,10 +126,14 @@
       <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
 
       <label for="message">Message</label>
-      <textarea id="message" name="message" placeholder="Votre message ici..." required></textarea>
+      <textarea id="message" name="message" placeholder="Votre message..." required></textarea>
 
       <button type="submit">Envoyer le message</button>
     </form>
   </div>
+
+  <footer>
+    © Maxime Laporte – Page de contact stylisée | Exercice 5
+  </footer>
 </body>
 </html>
