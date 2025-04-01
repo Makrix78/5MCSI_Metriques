@@ -1,49 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <title>Analyse des commits GitHub</title>
+    <title>Analyse des Commits GitHub</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <style>
       body {
-        font-family: Arial, sans-serif;
-        background-color: #f9f9f9;
-        padding: 40px;
-        color: #333;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #eef1f5;
+        margin: 0;
+        padding: 0;
       }
 
-      h2 {
+      .container {
+        max-width: 1000px;
+        margin: 50px auto;
+        background-color: white;
+        border-radius: 10px;
+        padding: 40px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
         text-align: center;
-        margin-bottom: 30px;
+        color: #2c3e50;
+        margin-bottom: 20px;
+      }
+
+      p.description {
+        text-align: center;
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 40px;
+        line-height: 1.6;
       }
 
       #chart_div {
         width: 100%;
-        max-width: 1000px;
         height: 500px;
-        margin: auto;
       }
 
-      .description {
-        max-width: 800px;
-        margin: auto;
+      footer {
         text-align: center;
-        margin-bottom: 40px;
-        font-size: 16px;
-        line-height: 1.6;
+        color: #aaa;
+        font-size: 14px;
+        margin-top: 40px;
       }
     </style>
   </head>
+
   <body>
-    <h2>Répartition des Commits par Minute</h2>
+    <div class="container">
+      <h1>Analyse des Commits GitHub (par minute)</h1>
 
-    <div class="description">
-      Ce graphique représente le nombre de commits effectués sur le projet
-      <b>OpenRSI/5MCSI_Metriques</b>, regroupés par minute de la journée (exemple : 13:00, 13:01, 13:02...).
-      Il permet d’analyser l’activité des développeurs dans le temps.
+      <p class="description">
+        Ce graphique représente le nombre de commits réalisés sur le projet
+        <strong>OpenRSI/5MCSI_Metriques</strong>, répartis selon les minutes de l'heure (de 00 à 59).
+        Cette visualisation permet d’observer les pics d'activité des contributeurs minute par minute.
+      </p>
+
+      <div id="chart_div"></div>
+
+      <footer>
+        Données récupérées via l’API GitHub – Projet pédagogique 5MCSI
+      </footer>
     </div>
-
-    <div id="chart_div"></div>
 
     <script>
       google.charts.load('current', { packages: ['corechart'] });
@@ -55,27 +76,35 @@
           .then(data => {
             const dataTable = new google.visualization.DataTable();
             dataTable.addColumn('string', 'Minute');
-            dataTable.addColumn('number', 'Nombre de commits');
+            dataTable.addColumn('number', 'Commits');
 
             data.results.forEach(entry => {
               dataTable.addRow([entry.minute.toString().padStart(2, '0'), entry.commits]);
             });
 
             const options = {
-              title: 'Nombre de commits par minute (0 à 59)',
+              title: 'Nombre de commits par minute',
+              titleTextStyle: {
+                fontSize: 18,
+                bold: true,
+                color: '#2c3e50'
+              },
               hAxis: {
-                title: 'Minute de l\'heure',
-                titleTextStyle: { bold: true },
+                title: 'Minute (00 à 59)',
+                slantedText: true,
+                titleTextStyle: { bold: true, italic: false, color: '#34495e' },
                 textStyle: { fontSize: 12 }
               },
               vAxis: {
-                title: 'Nombre de commits',
-                titleTextStyle: { bold: true },
-                minValue: 0
+                title: 'Commits',
+                titleTextStyle: { bold: true, italic: false, color: '#34495e' },
+                minValue: 0,
+                gridlines: { count: 5 }
               },
               legend: 'none',
-              colors: ['#1f77b4'],
-              bar: { groupWidth: '80%' }
+              colors: ['#3498db'],
+              bar: { groupWidth: '75%' },
+              backgroundColor: 'transparent'
             };
 
             const chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
